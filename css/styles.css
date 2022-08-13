@@ -1,0 +1,78 @@
+@charset "UTF-8";
+/* --IMPORT FONT----------------------- */
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap");
+/*----------ZEROING------------------- */
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top; /* чтобы снизу не было отступа */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: inherit;
+}
+
+html,
+body {
+  height: 100vh;
+  font-size: 18px;
+  line-height: 150%;
+}
+
+body.lock {
+  overflow: hidden;
+}
+
+._wrapper {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+._container {
+  max-width: 1000px;
+  margin: 0px auto;
+}
+
+body {
+  background-color: #efe;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 400;
+}
+
+.header {
+  background-color: #333;
+  height: 50px;
+}
+
+.footer {
+  background-color: #333;
+  height: 320px;
+}
+
+main {
+  min-height: calc(100vh - 370px);
+}/*# sourceMappingURL=styles.css.map */

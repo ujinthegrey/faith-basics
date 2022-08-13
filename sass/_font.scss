@@ -1,0 +1,19 @@
+/* --IMPORT FONT----------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap');
+
+@mixin regular {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 400;
+}
+
+@mixin italic {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 400;
+    font-style: italic;    
+}
+
+@mixin bold {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 700;
+}
+
