@@ -1,0 +1,36 @@
+._popup-anchor
+    color: $secondary
+    cursor: pointer
+
+.popup
+    position: fixed
+    overflow: auto
+    width: 100vw
+    height: 100vh
+    background-color: $bg-popup
+    z-index: 80
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    cursor: pointer
+
+    &._hidden
+        display: none
+
+    &__body
+        padding: 30px
+        overflow: auto
+
+
+    &__title
+        text-align: center
+        font-size: 24px
+        line-height: 150%
+        color: $text-light
+        +italic
+
+    &__text
+        color: $primary
+        font-size: 22px
+        line-height: 150%

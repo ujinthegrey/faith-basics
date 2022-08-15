@@ -63,6 +63,46 @@ body {
   font-weight: 400;
 }
 
+._popup-anchor {
+  color: #009;
+  cursor: pointer;
+}
+
+.popup {
+  position: fixed;
+  overflow: auto;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.popup._hidden {
+  display: none;
+}
+.popup__body {
+  padding: 30px;
+  overflow: auto;
+}
+.popup__title {
+  text-align: center;
+  font-size: 24px;
+  line-height: 150%;
+  color: #fff;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+.popup__text {
+  color: #9c9;
+  font-size: 22px;
+  line-height: 150%;
+}
+
 .header {
   height: 50px;
   position: fixed;
