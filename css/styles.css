@@ -172,7 +172,7 @@ body {
   transform: rotateX(0);
 }
 .dropdown__body {
-  padding: 15px;
+  padding: 0px 15px 15px;
 }
 .dropdown__list {
   display: flex;
@@ -189,6 +189,7 @@ body {
 @media (max-width: 810px) {
   .dropdown__list li {
     flex: 1 1 100%;
+    margin-bottom: unset;
   }
 }
 .dropdown__link {
