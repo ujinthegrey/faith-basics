@@ -35,6 +35,7 @@ if (anchors.length) {
 
 //---POPUP-------------
 const popup = document.querySelector('.popup')
+const popupBody = document.querySelector('.popup__body')
 const popupTitle = document.querySelector('.popup__title')
 const popupText = document.querySelector('.popup__text')
 const popupAnchors = document.querySelectorAll('._popup-anchor')
@@ -42,9 +43,10 @@ if (popupAnchors.length) {
     for (let popupAnchor of popupAnchors) {
         popupAnchor.addEventListener('click', e => {
             e.preventDefault()
-            popupTitle.innerHTML = popupAnchor.innerHTML.replace(/\s/g, '')
+            const address = popupAnchor.innerHTML.replace(/\s/g, '')
+            popupTitle.innerHTML = address
+            //createPoputText(address)
             //popupText.innerHTML = getBibleText(popupAnchor.innerHTML.replace(/\s/g, ''))
-            console.log(getBibleText(popupAnchor.innerHTML.replace(/\s/g, '')));
             popup.classList.remove('_hidden')
             body.classList.add('_lock')
         })
@@ -57,63 +59,22 @@ if (popup) {
         body.classList.remove('_lock')
     })
 }
+function createPoputText(popupBody, address) {
+    const popupText = document.createElement('p')
+    popupText.classList.add('popup__text')
+    popupText.textContent = getBibleText(address)
+    popupBody.append(popupText)
+    return popupBody
+}
 
 //--- BIBLE CONTENT -----------------
-const getBibleBookAddress = (textAddress) => {
-    const book = textAddress.split('.')[0] + '.'
-    return book
+const BIBLE_RST_URL = 'https://raw.githubusercontent.com/ujinthegrey/rst/main/rst.json'
+async function getBibleVerse(book, chapter, verse) {
+    const bibleVerse = await fetch(BIBLE_RST_URL)
+        .then(response => response.json())
+        .then(data => {
+            console.log(
+                data["Books"].find(b => b.BookName === book)['Chapters'][chapter - 1]['Verses'][verse - 1]['Text']
+                )})
 }
-const getBibleChapterAddress = (textAddress) => {
-    const chapter = textAddress.split('.')[1].split(':')[0]
-    return chapter
-}
-const getBibleVersesAddress = (textAddress) => {
-    const verses = textAddress.split('.')[1].split(':')[1]
-    const versesArray = []
-
-    if (verses.includes('-')) {
-        const verseStart = +verses.split('-')[0]
-        const verseEnd = +verses.split('-')[1]
-        for (let i = verseStart; i < verseEnd + 1; i++) {
-            versesArray.push(i.toString())
-        }
-    } else {
-        versesArray.push(verses)
-    }
-    return versesArray
-}
-const getBibleVerse = async (book, chapter, verse) =>{
-    const response = await fetch('https://raw.githubusercontent.com/ujinthegrey/rst/main/rst.json')
-    const data = await response.json()
-    .then((response) => {
-        return response.json()
-    })
-    .then((data) => {
-        return (data['Books']
-            .find(b => b.BookName === book)
-            ['Chapters'][chapter - 1]
-            ['Verses'][verse - 1]
-            ['Text']
-        )
-    })
-}
-
-console.log(getBibleVerse('Быт.',  1,  1))
-
-const getBibleText = (address) => {
-    const book = getBibleBookAddress(address)
-    const chapter = getBibleChapterAddress(address)
-    const verses = getBibleVersesAddress(address)
-    let bibleText = ''
-
-    if (verses.length > 1) {
-        for (let verse of verses) {
-            bibleText = bibleText + ' ' + getBibleVerse(book, chapter, verse)
-        }
-    } else {
-        bibleText = verses[0].text
-    }
-    return bibleText
-}
-
-/* console.log(getBibleText('Лев.7:10-11')) */
+getBibleVerse('Зах.', 1, 1)
