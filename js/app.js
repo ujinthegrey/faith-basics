@@ -45,8 +45,12 @@ if (popupAnchors.length) {
             e.preventDefault()
             const address = popupAnchor.innerHTML.replace(/\s/g, '')
             popupTitle.innerHTML = address
-            //createPoputText(address)
-            //popupText.innerHTML = getBibleText(popupAnchor.innerHTML.replace(/\s/g, ''))
+            /* const popUpText = document.createElement('p')
+            popUpText.classList.add('popup__text')
+            popUpText.textContent = getBibleVerse('Зах.', 1, 1)
+            popupBody.append(popUpText)
+            console.log('В лисенере!!!') */
+            popupText.innerText = getBibleVerse('Зах.', 1, 1)
             popup.classList.remove('_hidden')
             body.classList.add('_lock')
         })
@@ -69,12 +73,45 @@ function createPoputText(popupBody, address) {
 
 //--- BIBLE CONTENT -----------------
 const BIBLE_RST_URL = 'https://raw.githubusercontent.com/ujinthegrey/rst/main/rst.json'
+
 async function getBibleVerse(book, chapter, verse) {
-    const bibleVerse = await fetch(BIBLE_RST_URL)
-        .then(response => response.json())
-        .then(data => {
-            console.log(
-                data["Books"].find(b => b.BookName === book)['Chapters'][chapter - 1]['Verses'][verse - 1]['Text']
-                )})
+    try {
+        const bibleVerse = await fetch(BIBLE_RST_URL)
+            .then(response => response.json())
+            .then(data => {
+                popupText
+                console.log(
+                    data["Books"].find(b => b.BookName.toLowerCase() === book.toLowerCase())['Chapters'][chapter - 1]['Verses'][verse - 1]['Text']
+                    )})
+    } catch (e) {
+        console.log('Ошибка при загрузке места Писания', e)
+    }
+
 }
+
 getBibleVerse('Зах.', 1, 1)
+
+function getBibleText(address = 'Езд.7:10') {
+    addressObject = getAddressObject(address)
+}
+function getAddressObject(address) {
+    cleanAddress = address.replace(/\s/g, '').toLowerCase()
+    book = cleanAddress.split('.')[0] + '.'
+    chapter = cleanAddress.split('.')[1].split(':')[0]
+    verseRange = cleanAddress.split('.')[1].split(':')[1]
+    let verses = []
+    if (verseRange.includes('-')) {
+        verseStart = +verseRange.split('-')[0]
+        console.log(verseStart)
+        verseEnd = +verseRange.split('-')[1]
+        console.log(verseEnd)
+        for (let i = verseStart; i < verseEnd + 1; i++) {
+            verses.push(`${i}`)
+        }
+    } else {
+        verses.push(verseRange)
+    }
+    return { book, chapter, verses}
+}
+
+console.log(getAddressObject('Пс. 118:1-30'))
