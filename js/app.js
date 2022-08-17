@@ -37,20 +37,19 @@ if (anchors.length) {
 const popup = document.querySelector('.popup')
 const popupBody = document.querySelector('.popup__body')
 const popupTitle = document.querySelector('.popup__title')
-const popupText = document.querySelector('.popup__text')
+//const popupText = document.querySelector('.popup__text')
 const popupAnchors = document.querySelectorAll('._popup-anchor')
 if (popupAnchors.length) {
     for (let popupAnchor of popupAnchors) {
         popupAnchor.addEventListener('click', e => {
             e.preventDefault()
-            const address = popupAnchor.innerHTML.replace(/\s/g, '')
-            popupTitle.innerHTML = address
-            /* const popUpText = document.createElement('p')
-            popUpText.classList.add('popup__text')
-            popUpText.textContent = getBibleVerse('Зах.', 1, 1)
-            popupBody.append(popUpText)
-            console.log('В лисенере!!!') */
-            popupText.innerText = getBibleVerse('Зах.', 1, 1)
+            const addressToShow = popupAnchor.innerHTML.replace(/\s/g, '')
+            popupTitle.innerHTML = addressToShow
+            const popupText = document.createElement('p')
+            popupText.classList.add('popup__text')
+            popupText.textContent = getBibleText(addressToShow)
+            popupBody.append(popupText)
+            //popupText.innerText = getBibleText(addressToShow)
             popup.classList.remove('_hidden')
             body.classList.add('_lock')
         })
@@ -79,21 +78,30 @@ async function getBibleVerse(book, chapter, verse) {
         const bibleVerse = await fetch(BIBLE_RST_URL)
             .then(response => response.json())
             .then(data => {
-                popupText
-                console.log(
+                console.log( 'getBibleVerse >>>>>>>>>>>>>',
                     data["Books"].find(b => b.BookName.toLowerCase() === book.toLowerCase())['Chapters'][chapter - 1]['Verses'][verse - 1]['Text']
                     )})
+                //return data["Books"].find(b => b.BookName.toLowerCase() === book.toLowerCase())['Chapters'][chapter - 1]['Verses'][verse - 1]['Text']
     } catch (e) {
         console.log('Ошибка при загрузке места Писания', e)
     }
-
 }
 
 getBibleVerse('Зах.', 1, 1)
+getAddressObject('Мих. 2: 4')
+getBibleText('Исх.3:14')
 
-function getBibleText(address = 'Езд.7:10') {
+async function getBibleText(address = 'Езд.7:10') {
     addressObject = getAddressObject(address)
+    const book = addressObject.book
+    const chapter = addressObject.chapter
+    const verse = addressObject.verses[0]
+    let bibleText = await getBibleVerse(book, chapter, verse)
+  
+    console.log('getBibleText >>>>>>>>>>>>>', bibleText);
+    return bibleText
 }
+
 function getAddressObject(address) {
     cleanAddress = address.replace(/\s/g, '').toLowerCase()
     book = cleanAddress.split('.')[0] + '.'
@@ -102,9 +110,7 @@ function getAddressObject(address) {
     let verses = []
     if (verseRange.includes('-')) {
         verseStart = +verseRange.split('-')[0]
-        console.log(verseStart)
         verseEnd = +verseRange.split('-')[1]
-        console.log(verseEnd)
         for (let i = verseStart; i < verseEnd + 1; i++) {
             verses.push(`${i}`)
         }
@@ -114,4 +120,3 @@ function getAddressObject(address) {
     return { book, chapter, verses}
 }
 
-console.log(getAddressObject('Пс. 118:1-30'))
