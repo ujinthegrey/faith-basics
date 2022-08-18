@@ -1,5 +1,4 @@
 const BIBLE_RST_URL = 'https://raw.githubusercontent.com/ujinthegrey/rst/main/rst.json'
-//const body = document.querySelector('body')
 const popupAnchors = document.querySelectorAll('._popup-anchor')
 
 //---POPUP-------------
@@ -84,16 +83,16 @@ async function fetchBible() {
         console.log('Ошибка при загрузке Библии по URL >>>>>>>>>>>>', e)
     }
 }
-async function getBibleVerse(b, c, v) {
+// -- DON'T USE NOW
+/* async function getBibleVerse(b, c, v) {
     try {
         const bibleRst = await fetchBible()
-        console.log('getBibleVerse() >>>>>>>>>>>>>>>',
-        bibleRst['Books'][b]['Chapters'][c]['Verses'][v]['Text']
-        )
+        return bibleRst['Books'].find(book => book.BookName.toLowerCase() === b.toLowerCase())['Chapters'][c]['Verses'][v-1]['Text']
     } catch (e) {
         console.log('Ошибка при поиске стиха >>>>>>>>>>>>>>>', e)
     }
-}
+} */
+
 function getAddressObject(address) {
     cleanAddress = address.replace(/\s/g, '').toLowerCase()
     book = cleanAddress.split('.')[0] + '.'
@@ -111,23 +110,45 @@ function getAddressObject(address) {
     }
     return { book, chapter, verses}
 }
-console.log(getAddressObject('Зах.4:2-4'))
-getBibleVerse(37, 2, 8)
-
-//logBible()
-
-/* async function getBibleVerse(book, chapter, verse) {
-    try {
-        const bibleVerse = await fetch(BIBLE_RST_URL)
-            .then(response => response.json())
-            .then(data => {
-                console.log( 'getBibleVerse >>>>>>>>>>>>>',
-                    data["Books"].find(b => b.BookName.toLowerCase() === book.toLowerCase())['Chapters'][chapter - 1]['Verses'][verse - 1]['Text']
-                    )})
-    } catch (e) {
-        console.log('Ошибка при загрузке места Писания', e)
+async function getBibleText({ book, chapter, verses }) {
+    let bibleText = []
+    const bibleRst = await fetchBible()
+    const bibleChapter = bibleRst['Books'].find(b => b.BookName.toLowerCase() === book.toLowerCase())['Chapters'][chapter - 1]['Verses']
+    for (let verse of verses) {
+        const verseText = bibleChapter[verse - 1]['Text']
+        bibleText.push(verseText)
     }
+    return bibleText.join(' ')
+}
+async function gerBibleTextFromAddress(stringAddress) {
+    console.time('gerBibleTextFromAddress')
+    const addressObject = getAddressObject(stringAddress)
+    console.log(addressObject)
+    const bibleTextFromAddress = await getBibleText(addressObject)
+    console.log(bibleTextFromAddress)
+    console.timeEnd('gerBibleTextFromAddress')
+}
+
+/* --- TOO SLOW FUNCTION */
+/* async function getBibleText2({ book, chapter, verses }) {
+    console.time('getBibleText2')
+    let bibleText = []
+    for (let verse of verses) {
+        const verseText = await getBibleVerse(book, chapter, verse)
+        bibleText.push(verseText)
+    }
+    console.log('bobleText >>>>>>>>>>>>>>>>>>', bibleText.join(' '))
+    console.timeEnd('getBibleText2')
 } */
+
+const testObject1 = getAddressObject('Откр.21:1-4')
+const testObject2 = getAddressObject('Быт. 1:1-4')
+const testObject3 = getAddressObject('Пс.118:1-4')
+
+//getBibleText(testObject1)
+
+gerBibleTextFromAddress('Дан.1:1-4')
+
 
 //getBibleVerse('Зах.', 1, 1)
 //console.log(getAddressObject('Рим.2:4-7'))
