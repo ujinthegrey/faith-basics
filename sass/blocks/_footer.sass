@@ -1,32 +1,60 @@
-$footer-height: 320px
+$footer-height: 300px
     
 .footer
     background-color: $bg-footer
     height: $footer-height
+    @media (max-width: 810px)
+        height: calc($footer-height * 1.5)
+    position: relative
 
+    &__container
+        padding: 0px 15px
 
     &__social
 
-    &__bodyy
-        display: flex
-        justify-content: center
-        align-items: center
+    &__body
+
+    &__title
+        text-align: center
+        font-size: 18px
+        color: $primary
+        margin: 20px 0px
 
     &__list
         display: flex
+        flex-wrap: wrap
         align-items: center
         justify-content: space-between
+        & li        
+            flex: 1 0 50%
+            text-align: center
+            @media (max-width: 810px)
+                flex: 1 0 100%
 
     &__link
-      
+        +regular
+        color: $text-light
+        font-size: 18px
+        line-height: 32px
+        text-align: center
+        &:hover
+            opacity: .5
 
     &__copy
-        background-color: $bg_body
+        position: absolute
+        bottom: 0
+        left: 0
+        right: 0
+        background-color: $primary
 
     &__me
-        font-size: 60px
+        font-size: 16px
         line-height: 40px
         text-align: center
+        +regular
 
     &__my-link
-        color: $primary
+        &:hover
+            opacity: .5
+
+

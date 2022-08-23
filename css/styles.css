@@ -63,6 +63,26 @@ body {
   font-weight: 400;
 }
 
+._youtube__link {
+  padding-left: 30px;
+  background: url("../img/icons/youtube.svg") 0 0 no-repeat;
+  background-position: left center;
+  background-size: 24px;
+}
+
+._github-link {
+  padding-left: 24px;
+  background: url("../img/icons/github.svg") 0 0 no-repeat;
+  background-position: left center;
+  background-size: 24px;
+}
+
+._pulpit {
+  background: url("../img/icons/pulpit.svg") 0 0 no-repeat;
+  background-position: top center;
+  background-size: 32px;
+}
+
 ._popup-anchor {
   color: #009;
   cursor: pointer;
@@ -131,7 +151,7 @@ body {
   cursor: pointer;
 }
 .header__logo:hover {
-  opacity: 0.9;
+  opacity: 0.85;
 }
 .header__icon {
   width: 40px;
@@ -144,7 +164,7 @@ body {
   cursor: pointer;
 }
 .header__icon:hover {
-  opacity: 0.9;
+  opacity: 0.85;
 }
 .header__icon._active {
   transform: rotate(0.25turn);
@@ -218,11 +238,69 @@ body {
 
 .footer {
   background-color: #333;
-  height: 320px;
+  height: 300px;
+  position: relative;
+}
+@media (max-width: 810px) {
+  .footer {
+    height: 450px;
+  }
+}
+.footer__container {
+  padding: 0px 15px;
+}
+.footer__title {
+  text-align: center;
+  font-size: 18px;
+  color: #9c9;
+  margin: 20px 0px;
+}
+.footer__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer__list li {
+  flex: 1 0 50%;
+  text-align: center;
+}
+@media (max-width: 810px) {
+  .footer__list li {
+    flex: 1 0 100%;
+  }
+}
+.footer__link {
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 400;
+  color: #fff;
+  font-size: 18px;
+  line-height: 32px;
+  text-align: center;
+}
+.footer__link:hover {
+  opacity: 0.5;
+}
+.footer__copy {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #9c9;
+}
+.footer__me {
+  font-size: 16px;
+  line-height: 40px;
+  text-align: center;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 400;
+}
+.footer__my-link:hover {
+  opacity: 0.5;
 }
 
 main {
-  min-height: calc(100vh - 320px);
+  min-height: calc(100vh - 300px);
 }
 
 .main__container {

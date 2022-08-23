@@ -15,7 +15,7 @@ const BIBLE_BOOKS_ABBR = [
     ['1паралипоменон', '1аяпаралипоменон', '1пар', '1аяпар', '1парал', '1паралип'],
     ['2паралипоменон', '2аяпаралипоменон', '2пар', '2аяпар', '2парал', '2паралип'],
     ['ездра', 'ездры', 'езд', 'ездр', 'эздра', 'эздры', 'эзд', 'эздр'],
-    ['неемия', 'неемии', 'нееи'],
+    ['неемия', 'неемии', 'неем', 'нм'],
     ['есфирь', 'есфири', 'есф', 'есфр', 'есфир', 'эсфирь', 'эсфири', 'эсф', 'эсфр', 'эсфир'],
     ['иов', 'иова', 'ив'],
     ['псастирь', 'псалтири', 'псалиырь', 'псалтыри', 'псалм.', 'пс'],
@@ -120,15 +120,15 @@ async function getBibleText({ book, chapter, verses }) {
     }
 }
 async function gerBibleTextFromAddress(stringAddress) {
-    const addressObject = getAddressObject(stringAddress)
-    const bibleTextFromAddress = await getBibleText(addressObject)
-    return bibleTextFromAddress
+    try {
+        const addressObject = getAddressObject(stringAddress)
+        const bibleTextFromAddress = await getBibleText(addressObject)
+        return bibleTextFromAddress
+    } catch (e) {
+        console.log('Ошибка при загрузке библейского текста >>>>>>>>>>>>>>>', e);
+        return `не удалось найти текст по этому адресу`
+    }
 }
-gerBibleTextFromAddress('Пс.7:1')
-gerBibleTextFromAddress('Пс.8:1')
-gerBibleTextFromAddress('Пс.9:1')
-gerBibleTextFromAddress('Пс.10:1')
-
 
 function getAddressObject(address) {
     const cleanAddress = address.replace(/\s/g, '').toLowerCase()
