@@ -76,6 +76,9 @@ body {
   background-position: left center;
   background-size: 24px;
 }
+._github-link:hover {
+  opacity: 0.5;
+}
 
 ._pulpit {
   background: url("../img/icons/pulpit.svg") 0 0 no-repeat;
@@ -294,9 +297,6 @@ body {
   text-align: center;
   font-family: "Ubuntu", sans-serif;
   font-weight: 400;
-}
-.footer__my-link:hover {
-  opacity: 0.5;
 }
 
 main {
